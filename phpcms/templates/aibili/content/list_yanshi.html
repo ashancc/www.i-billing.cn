@@ -1,0 +1,59 @@
+{template "content","header"}
+<!-- Title Section -->           
+<section class="title-section">
+    <div class="container">
+        <!-- crumbs --> 
+        <div class="row crumbs">
+           <div class="col-md-12">
+                {$CATEGORYS[$top_parentid][catname]} / {$CATEGORYS[$catid][catname]}
+           </div>
+        </div>
+        <!-- End crumbs --> 
+
+        <!-- Title - Search--> 
+        <div class="row title">
+            <!-- Title --> 
+            <div class="col-md-9">
+                <h1>{$CATEGORYS[$catid][catname]}<span class="cat_en">{$CATEGORYS[$catid][description]}</span></h1>
+            </div>
+            <!-- End Title--> 
+        </div>
+        <!-- End Title -Search --> 
+      
+    </div>
+</section>   
+<!-- End Title Section --> 
+
+<!-- Services Carousel -->
+<section class="paddings page_content" style="min-height: 430px">
+    <div class="container">
+        		<div class="row position-relative products_list_item">
+		            <div class="col-md-6">
+		                <!-- Simple-slide --> 
+		                <div id="carousel-example-generic" class="carousel slide bs-docs-carousel-example">
+		                    <div class="carousel-inner">
+		                        <div class="item active" style="max-height: 405px;overflow: hidden;">
+		                            <img src="{IMG_PATH}aibili/tmp/yanshishiyong.png" alt="">
+		                        </div>
+		                    </div>
+		                </div>
+		                <!-- End Simple-slide --> 
+		            </div>
+		            <div class="col-md-1"></div>
+		            <div class="col-md-5">
+		                <h3 class="title-subtitle" title="简版演示试用">
+		                    简版演示试用
+		                </h3>
+		                 <p style="font-size: 16px;">计费管理演示：</p>
+		                 <p>&nbsp;&nbsp;&nbsp;演示地址：<a target="_blank" href="http://115.28.0.62:8081/nodeibilling">登录地址</a></p>
+		                 <p>&nbsp;&nbsp;&nbsp;登录账号：sysadmin</p>
+		                 <p>&nbsp;&nbsp;&nbsp;登录密码：12345678</p>
+		                 <p style="font-size: 16px;margin-top: 15px">用户自服务演示：</p>
+		                 <p>&nbsp;&nbsp;&nbsp;演示地址：<a target="_blank" href="http://115.28.0.62:8081/ibillingself">登录地址</a></p>
+		            </div>
+	        	</div>         
+    </div>
+    <!-- End Container-->
+</section>
+<!-- End Services Carousel-->
+{template "content","footer"}

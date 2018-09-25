@@ -1,0 +1,85 @@
+        <!-- footer bottom-->
+        <footer class="footer-bottom">
+            <div class="container">
+               <div class="row">   
+                                                                  
+                    <!-- Nav-->
+                    <div class="col-md-8">
+                        <div class="logo-footer">
+                            <div class="logo">
+                                <a href="index.html" title="艾比利">                            
+                                    <img src="{IMG_PATH}aibili/logo.png" alt="Logo" class="logo_img">
+                                </a>
+                            </div>
+                        </div>
+                        <!-- coopring-->
+                       <div class="row coopring">
+                           <div class="col-md-8">
+                               <p>&copy; 北京海睿兴业科技有限公司 保留一切权利 京ICP备13046694号</p>
+                           </div>
+                       </div>    
+                       <!-- End coopring-->  
+                    </div>
+                    <!-- End Nav-->
+               </div>    
+            </div>
+        </footer>      
+        <!-- End footer bottom-->
+
+    </div>
+    <!-- End layout-->
+
+    <!-- ======================= JQuery libs =========================== -->
+    <!-- jQuery local-->
+    <script type="text/javascript" src="{JS_PATH}aibili/jquery.js"></script> 
+    <!--Nav-->
+    <script type="text/javascript" src="{JS_PATH}aibili/tinynav.js"></script> 
+    <script type="text/javascript" src="{JS_PATH}aibili/superfish.js"></script>  
+    <script type="text/javascript" src="{JS_PATH}aibili/jquery.sticky.js" ></script>                                          
+    <!--Totop-->
+    <script type="text/javascript" src="{JS_PATH}aibili/jquery.ui.totop.js" ></script>  
+    <!--Slide Revolution-->
+    <script type="text/javascript" src="{JS_PATH}aibili/jquery.themepunch.tools.min.js" ></script>      
+    <script type='text/javascript' src='{JS_PATH}aibili/jquery.themepunch.revolution.min.js'></script>
+    <!-- carousel.js-->
+    <script src="{JS_PATH}aibili/carousel.js"></script>
+    <!-- Bootstrap.js-->
+    <script type="text/javascript" src="{JS_PATH}aibili/bootstrap.js"></script>
+    <!--MAIN FUNCTIONS-->
+    <script type="text/javascript" src="{JS_PATH}aibili/main.js"></script>
+    <!-- ======================= End JQuery libs =========================== -->
+
+    <!--Slider Function-->
+    <script type="text/javascript">
+        var revapi;
+        jQuery(document).ready(function() {
+           revapi = jQuery('.tp-banner').revolution(
+            {
+                delay:9000,
+                startwidth:1170,
+                startheight:500,
+                spinner:"spinner1",
+                hideThumbs:10,
+                fullWidth:"on",
+                navigationType:"none",
+                navigationArrows:"none",
+                navigationStyle:"preview4",
+                forceFullWidth:"on"
+            });
+        }); 
+    </script>
+    <!--End Slider Function-->
+    
+    <!-- 百度统计 -->
+	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?0e1bde2e1d8bd36dcecb55ab29e9972d";
+		  var s = document.getElementsByTagName("script")[0];
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+    
+    </body>
+</html>

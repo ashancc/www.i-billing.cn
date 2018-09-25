@@ -1,0 +1,68 @@
+{template "content","header"}
+<!-- Title Section -->           
+<section class="title-section">
+    <div class="container">
+        <!-- crumbs --> 
+        <div class="row crumbs">
+           <div class="col-md-12">
+                {$CATEGORYS[$top_parentid][catname]} / {$CATEGORYS[$catid][catname]}
+           </div>
+        </div>
+        <!-- End crumbs --> 
+
+        <!-- Title - Search--> 
+        <div class="row title">
+            <!-- Title --> 
+            <div class="col-md-9">
+                <h1>{$CATEGORYS[$catid][catname]}<span class="cat_en">{$CATEGORYS[$catid][description]}</span></h1>
+            </div>
+            <!-- End Title--> 
+        </div>
+        <!-- End Title -Search --> 
+      
+    </div>
+</section>   
+<!-- End Title Section --> 
+
+<!-- Services Carousel -->
+<section class="paddings page_content" style="min-height: 430px">
+    <div class="container">
+    	{pc:content action="lists" catid="$catid" num="5" order="listorder ASC" return="info" moreinfo="1" page="$page"}
+            {loop $info $v}
+        		<div class="row position-relative products_list_item">
+		            <div class="col-md-7">
+		                <!-- Simple-slide --> 
+		                <div id="carousel-example-generic" class="carousel slide bs-docs-carousel-example">
+		                    <div class="carousel-inner">
+		                        <div class="item active" style="max-height: 405px;overflow: hidden;">
+		                            <img src="{thumb($v[thumb],600,0)}" alt="">
+		                        </div>
+		                    </div>
+		                </div>
+		                <!-- End Simple-slide --> 
+		            </div>
+		            <div class="col-md-5">
+		                <h3 class="title-subtitle" title="{$v[title]}">
+		                    {$v[title]}
+		                    <span>{$v[description]}</span>
+		                </h3>
+		                 <p>{str_cut(strip_tags($v['content']), 540)}</p>
+		                 <div class="row">
+		                    <ul class="col-md-12 list product_tdlist">
+		                    	{php $arr = array(); $arr = explode(' ', $v[keywords], 4); }
+		                    	{loop $arr $keywords}
+			                        <li><i class="fa fa-check"></i>{$keywords}</li>
+		                        {/loop}                   
+		                    </ul>
+		                 </div>
+		                <a href="{$v[url]}" target="blank" class="btn btn-primary" style="margin-top: 15px">查看详情</a>
+		            </div>            
+	        	</div>
+        	{/loop}
+        	{$pages}
+      	{/pc}            
+    </div>
+    <!-- End Container-->
+</section>
+<!-- End Services Carousel-->
+{template "content","footer"}
