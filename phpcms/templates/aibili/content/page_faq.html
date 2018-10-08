@@ -1,0 +1,57 @@
+{template "content","header"}
+<!-- Title Section -->           
+<section class="title-section">
+    <div class="container">
+        <!-- crumbs --> 
+        <div class="row crumbs">
+           <div class="col-md-12">
+                <a href="{$CATEGORYS[$catid][url]}">{$CATEGORYS[$parentid][catname]}</a> / {$CATEGORYS[$catid][catname]}
+           </div>
+        </div>
+        <!-- End crumbs --> 
+
+        <!-- Title - Search--> 
+        <div class="row title">
+            <!-- Title --> 
+            <div class="col-md-9">
+                <h1>{$CATEGORYS[$catid][catname]}<span class="cat_en">{$CATEGORYS[$catid][description]}</span></h1>
+            </div>
+            <!-- End Title--> 
+        </div>
+        <!-- End Title -Search --> 
+      
+    </div>
+</section>   
+<!-- End Title Section -->
+<!-- Works -->
+<section class="paddings page_content" style="min-height: 580px;">
+    <div class="container">
+        <div class="col-md-7">
+            {php $faqall=array(); $faqall = explode(',', $CATEGORYS[$catid][arrchildid])}
+            {loop $faqall $f}  
+                {pc:content action="lists" catid="$f" num="10" order="listorder ASC" return="info" moreinfo="1" page="$page"}
+                    {loop $info $v}
+                        <div class="accordion-trigger">问：{$v['title']}</div>     
+                        <div class="accordion-container">
+                            <p>{$v['content']}</p>
+                        </div>
+                    {/loop}
+                {/pc}
+            {/loop}
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4 sidebars">
+            <aside>
+              <h4>联系方式</h4>
+              <address>
+                <i class="fa fa-qq"></i><strong>技术支持QQ</strong>:<a href="http://wpa.qq.com/msgrd?v=3&uin=2933078649&site=[i-billing]&menu=yes"><strong>2933078649</strong></a><br>
+                <!--<i style="position: relative;top:4px;width: 26px;height: 21px;background: url({IMG_PATH}aibili/qqgroup.png) 0 3px no-repeat;display: inline-block"></i><strong>官方QQ群: </strong><span>52406387</span><br>-->
+                <i class="fa fa-envelope"></i>Email: <strong>service@i-billing.cn</strong>
+              </address>
+          </aside>
+        </div>
+    </div>
+    <!-- End Container-->
+</section>
+<!-- End Works-->
+{template "content","footer"}

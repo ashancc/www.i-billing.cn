@@ -1,0 +1,70 @@
+{template "content","header"}
+<!-- Title Section -->           
+<section class="title-section">
+    <div class="container">
+        <!-- crumbs --> 
+        <div class="row crumbs">
+           <div class="col-md-12">
+                {$CATEGORYS[$top_parentid][catname]} / {$CATEGORYS[$catid][catname]}
+           </div>
+        </div>
+        <!-- End crumbs --> 
+
+        <!-- Title - Search--> 
+        <div class="row title">
+            <!-- Title --> 
+            <div class="col-md-9">
+                <h1>{$CATEGORYS[$catid][catname]}<span class="cat_en">{$CATEGORYS[$catid][description]}</span></h1>
+            </div>
+            <!-- End Title--> 
+        </div>
+        <!-- End Title -Search --> 
+      
+    </div>
+</section>   
+<!-- End Title Section --> 
+
+<!-- Works -->
+<section class="paddings page_content" style="min-height: 430px">
+    <div class="container">
+
+        <!-- Nav Filters -->
+        <div class="portfolioFilter">
+            {pc:content action="category" catid="$parentid" num="10" siteid="$siteid" order="listorder ASC"}
+                <a href="{$CATEGORYS[$parentid][url]}" data-filter="*">显示全部</a>
+                {loop $data $r}
+                    <a href="{$r[url]}" {if $catid == $r[catid]}class="current"{/if}>{$r[catname]}</a>
+                {/loop}
+            {/pc}
+        </div>
+        <!-- End Nav Filters -->
+
+        <!-- Items Works filters-->
+        <div class="row works portfolioContainer">
+            {pc:content action="lists" catid="$catid" num="10" order="listorder ASC" return="info" moreinfo="1" page="$page"}
+                {loop $info $v}
+                    <!-- Item Work-->
+                    <div class="col-md-4">
+                        <div class="item-work">
+                            <div class="hover">
+                                <img src="{thumb($v[thumb],360,210)}" alt="{$v['title']}" style="width: 360px;height: 210px;"/>                               
+                                 <a href="{$v['url']}" title=""><div class="overlay"></div></a>
+                            </div>                                   
+                            <div class="info-work">
+                                <h4>{str_cut($v['title'],50)}</h4>
+                                <p>{str_cut(strip_tags($v['content']), 130)}<a href="{$v['url']}">了解详情 >></a></p>
+                            </div>  
+                        </div>
+                    </div>
+                    <!-- End Item Work-->
+                {/loop}
+                {$pages}
+            {/pc}
+            <!-- End Item Work-->
+        </div>   
+        <!-- End Items Works filters-->       
+    </div>
+    <!-- End Container-->
+</section>
+<!-- End Works-->
+{template "content","footer"}

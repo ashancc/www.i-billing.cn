@@ -1,0 +1,83 @@
+{template "content","header"}
+<!-- Title Section -->           
+<section class="title-section">
+    <div class="container">
+        <!-- crumbs --> 
+        <div class="row crumbs">
+           <div class="col-md-12">
+                <a href="{$CATEGORYS[$catid][url]}">{$CATEGORYS[$parentid][catname]}</a> / {$CATEGORYS[$catid][catname]}
+           </div>
+        </div>
+        <!-- End crumbs --> 
+
+        <!-- Title - Search--> 
+        <div class="row title">
+            <!-- Title --> 
+            <div class="col-md-9">
+                <h1>{$CATEGORYS[$catid][catname]}<span class="cat_en">{$CATEGORYS[$catid][description]}</span></h1>
+            </div>
+            <!-- End Title--> 
+        </div>
+        <!-- End Title -Search --> 
+      
+    </div>
+</section>   
+<!-- End Title Section -->
+<!-- Works -->
+<section class="paddings page_content" style="min-height: 580px;">
+    <div class="container">
+        <!-- Blog Post -->
+            <div class="col-md-7">
+                {pc:content action="category" catid="$catid" num="10" siteid="$siteid" order="listorder ASC"}
+                    {loop $data $r}
+                        <div class="download_list_cat" style="margin-bottom: 30px">
+                            <div class="cat_title"><h3 style="border-bottom: 1px solid #ececec;padding-bottom: 5px;margin-bottom: 15px">{$r[catname]}</h3></div>
+                            {pc:content action="lists" catid="$r[catid]" num="10" order="listorder ASC" return="info" moreinfo="1" page="$page"}
+                                {if $info}
+                                    {loop $info $v}
+                                    <!-- Item Post -->
+                                        <div class="row" style="margin-bottom: 20px">
+                                            <!-- Info post -->
+                                                <div class="col-md-12">
+                                                    <a href="{$v['url']}">
+                                                        {if $v[thumb]}<img src="{$v[thumb]}" style="width: 24px">{/if}
+                                                        {str_cut($v['title'],70)}
+                                                    </a>
+                                                    <p style="margin-bottom: 0px">{str_cut(strip_tags($v['content']), 130)}</p>
+                                                    <p style="color: #C8C8C8;">
+                                                        {php $arr = array(); $arr = explode(' ', $v[keywords], 4); }
+                                                        {loop $arr $keywords}
+                                                            <span>{$keywords}</span>&nbsp;&nbsp;&nbsp;
+                                                        {/loop}
+                                                    </p>
+                                                </div>
+                                            <!--End Info post --> 
+                                        </div>
+                                    <!-- End Item Post -->
+                                    {/loop}
+                                {else}
+                                <p>暂时没有内容。</p>
+                                {/if}
+                                {$pages}
+                            {/pc}
+                        </div>
+                    {/loop}    
+                {/pc}
+            </div>            
+        <!-- End Blog Post -->
+        <div class="col-md-1"></div>
+        <div class="col-md-4 sidebars">
+            <aside>
+              <h4>联系方式</h4>
+              <address>
+                <i class="fa fa-qq"></i><strong>技术支持QQ</strong>:<a href="http://wpa.qq.com/msgrd?v=3&uin=2933078649&site=[i-billing]&menu=yes"><strong>2933078649</strong></a><br>
+                <!--<i style="position: relative;top:4px;width: 26px;height: 21px;background: url({IMG_PATH}aibili/qqgroup.png) 0 3px no-repeat;display: inline-block"></i><strong>官方QQ群: </strong><span>52406387</span><br>-->
+                <i class="fa fa-envelope"></i>Email: <strong>service@i-billing.cn</strong>
+              </address>
+          </aside>
+        </div>
+    </div>
+    <!-- End Container-->
+</section>
+<!-- End Works-->
+{template "content","footer"}
