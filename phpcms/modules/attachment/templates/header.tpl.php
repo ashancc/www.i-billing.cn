@@ -29,12 +29,4 @@ if(isset($show_dialog)) {
 <?php } ?>
 <style type="text/css">
 	html{_overflow-y:scroll}
-	div #pages{
-		float: right;
-		overflow: hidden;
-	}
-	div #pages li {
-		float: left;
-		margin-right: 3px;
-	}
 </style>

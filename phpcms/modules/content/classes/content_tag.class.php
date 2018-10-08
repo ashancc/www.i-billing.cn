@@ -132,7 +132,7 @@ class content_tag {
 			$sql .= " AND catid='$catid'";
 			foreach ($keywords_arr as $_k) {
 				$sql2 = $sql." AND `keywords` LIKE '%$_k%'".(isset($data['id']) && intval($data['id']) ? " AND `id` != '".abs(intval($data['id']))."'" : '');
-				$r = $this->db->select($sql2, '*', $limit, $order,'','','id');
+				$r = $this->db->select($sql2, '*', $limit, '','','id');
 				$number += count($r);
 				foreach ($r as $id=>$v) {
 					if($i<= $data['limit'] && !in_array($id, $key_array)) $key_array[$id] = $v;
@@ -205,6 +205,7 @@ class content_tag {
 		$categorys = getcache('category_content_'.$siteid,'commons');
 		$site = siteinfo($siteid);
 		$i = 1;
+		is_array($categorys)?null:$categorys= array();
 		foreach ($categorys as $catid=>$cat) {
 			if($i>$data['limit']) break;
 			if((!$cat['ismenu']) || $siteid && $cat['siteid']!=$siteid) continue;

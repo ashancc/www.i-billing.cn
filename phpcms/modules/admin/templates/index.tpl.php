@@ -35,13 +35,6 @@ var pc_hash = '<?php echo $_SESSION['pc_hash']?>'
 .ac{background-color:#333; color:#fff;}
 .hvs{background-color:#555; cursor: pointer;}
 .bg_btn{background: url(<?php echo IMG_PATH?>admin_img/icon2.jpg) no-repeat; width:32px; height:32px;}
-div #pages{
-	overflow: hidden;
-}
-div #pages li {
-	float: left;
-	margin-right: 3px;
-}
 </style>
 </head>
 <body scroll="no" class="objbody">

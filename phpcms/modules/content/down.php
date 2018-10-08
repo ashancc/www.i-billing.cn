@@ -11,15 +11,19 @@ class down {
 	public function init() {
 		$a_k = trim($_GET['a_k']);
 		if(!isset($a_k)) showmessage(L('illegal_parameters'));
-		$a_k = sys_auth($a_k, 'DECODE', pc_base::load_config('system','auth_key'));
+		$a_k = sys_auth($a_k, 'DECODE', md5(PC_PATH.'down').pc_base::load_config('system','auth_key'));
 		if(empty($a_k)) showmessage(L('illegal_parameters'));
 		unset($i,$m,$f);
+		$a_k = safe_replace($a_k);
 		parse_str($a_k);
 		if(isset($i)) $i = $id = intval($i);
 		if(!isset($m)) showmessage(L('illegal_parameters'));
 		if(!isset($modelid)||!isset($catid)) showmessage(L('illegal_parameters'));
 		if(empty($f)) showmessage(L('url_invalid'));
 		$allow_visitor = 1;
+		$id = intval($id);
+		$modelid  = intval($modelid);
+		$catid  = intval($catid);
 		$MODEL = getcache('model','commons');
 		$tablename = $this->db->table_name = $this->db->db_tablepre.$MODEL[$modelid]['tablename'];
 		$this->db->table_name = $tablename.'_data';
@@ -71,12 +75,7 @@ class down {
 		}
 		if(preg_match('/(php|phtml|php3|php4|jsp|dll|asp|cer|asa|shtml|shtm|aspx|asax|cgi|fcgi|pl)(\.|$)/i',$f) || strpos($f, ":\\")!==FALSE || strpos($f,'..')!==FALSE) showmessage(L('url_error'));
 		if(strpos($f, 'http://') !== FALSE || strpos($f, 'ftp://') !== FALSE || strpos($f, '://') === FALSE) {
-			if(empty($_SERVER['HTTP_USER_AGENT'])){
-				$pc_auth_key = md5(pc_base::load_config('system','auth_key').'down');
-			}else{
-				$pc_auth_key = md5(pc_base::load_config('system','auth_key').$_SERVER['HTTP_USER_AGENT']);
-			}
-			$a_k = urlencode(sys_auth("i=$i&d=$d&s=$s&t=".SYS_TIME."&ip=".ip()."&m=".$m."&f=$f&modelid=".$modelid, 'ENCODE', $pc_auth_key));
+			$a_k = urlencode(sys_auth("i=$i&d=$d&s=$s&t=".SYS_TIME."&ip=".ip()."&m=".$m."&f=$f&modelid=".$modelid, 'ENCODE', md5(PC_PATH.'down').pc_base::load_config('system','auth_key')));
 			$downurl = '?m=content&c=down&a=download&a_k='.$a_k;
 		} else {
 			$downurl = $f;			
@@ -86,14 +85,10 @@ class down {
 	
 	public function download() {
 		$a_k = trim($_GET['a_k']);
-		if(empty($_SERVER['HTTP_USER_AGENT'])){
-			$pc_auth_key = md5(pc_base::load_config('system','auth_key').'down');
-		}else{
-			$pc_auth_key = md5(pc_base::load_config('system','auth_key').$_SERVER['HTTP_USER_AGENT']);
-		}
-		$a_k = sys_auth($a_k, 'DECODE', $pc_auth_key);
+		$a_k = sys_auth($a_k, 'DECODE', md5(PC_PATH.'down').pc_base::load_config('system','auth_key'));
 		if(empty($a_k)) showmessage(L('illegal_parameters'));
 		unset($i,$m,$f,$t,$ip);
+		$a_k = safe_replace($a_k);
 		parse_str($a_k);		
 		if(isset($i)) $downid = intval($i);
 		if(!isset($m)) showmessage(L('illegal_parameters'));
@@ -125,6 +120,11 @@ class down {
 				}
 				$ext = fileext($filename);
 				$filename = date('Ymd_his').random(3).'.'.$ext;
+				$fileurl = str_replace(array('<','>'), '',$fileurl);
+				if(preg_match('/(php|phtml|php3|php4|jsp|dll|asp|cer|asa|shtml|shtm|aspx|asax|cgi|fcgi|pl)(\.|$)/i',$fileurl) || strpos($fileurl,'..')!==FALSE) showmessage(L('url_error'));
+				if( strpos(str_replace("/",DIRECTORY_SEPARATOR,$fileurl), str_replace("/",DIRECTORY_SEPARATOR,pc_base::load_config('system','upload_path'))) !== 0){
+					showmessage(L('url_error'));
+				}
 				file_down($fileurl, $filename);
 			}
 		}

@@ -273,6 +273,7 @@ function execute_time() {
 function random($length, $chars = '0123456789') {
 	$hash = '';
 	$max = strlen($chars) - 1;
+	mt_srand();
 	for($i = 0; $i < $length; $i++) {
 		$hash .= $chars[mt_rand(0, $max)];
 	}
@@ -286,8 +287,17 @@ function random($length, $chars = '0123456789') {
 * @return	array	返回数组格式，如果，data为空，则返回空数组
 */
 function string2array($data) {
+	$data = trim($data);
 	if($data == '') return array();
-	@eval("\$array = $data;");
+	if(strpos($data, 'array')===0){
+		@eval("\$array = $data;");
+	}else{
+		if(strpos($data, '{\\')===0) $data = stripslashes($data);
+		$array=json_decode($data,true);
+		if(strtolower(CHARSET)=='gbk'){
+			$array = mult_iconv("UTF-8", "GBK//IGNORE", $array);
+		}
+	}
 	return $array;
 }
 /**
@@ -298,9 +308,49 @@ function string2array($data) {
 * @return	string	返回字符串，如果，data为空，则返回空
 */
 function array2string($data, $isformdata = 1) {
-	if($data == '') return '';
+	if($data == '' || empty($data)) return '';
+	
 	if($isformdata) $data = new_stripslashes($data);
-	return addslashes(var_export($data, TRUE));
+	if(strtolower(CHARSET)=='gbk'){
+		$data = mult_iconv("GBK", "UTF-8", $data);
+	}
+	if (version_compare(PHP_VERSION,'5.3.0','<')){
+		return addslashes(json_encode($data));
+	}else{
+		return addslashes(json_encode($data,JSON_FORCE_OBJECT));
+	}
+}
+/**
+* 数组转码
+*
+*/
+function mult_iconv($in_charset,$out_charset,$data){
+    if(substr($out_charset,-8)=='//IGNORE'){
+        $out_charset=substr($out_charset,0,-8);
+    }
+    if(is_array($data)){
+        foreach($data as $key => $value){
+            if(is_array($value)){
+                $key=iconv($in_charset,$out_charset.'//IGNORE',$key);
+                $rtn[$key]=mult_iconv($in_charset,$out_charset,$value);
+            }elseif(is_string($key) || is_string($value)){
+                if(is_string($key)){
+                    $key=iconv($in_charset,$out_charset.'//IGNORE',$key);
+                }
+                if(is_string($value)){
+                    $value=iconv($in_charset,$out_charset.'//IGNORE',$value);
+                }
+                $rtn[$key]=$value;
+            }else{
+                $rtn[$key]=$value;
+            }
+        }
+    }elseif(is_string($data)){
+        $rtn=iconv($in_charset,$out_charset.'//IGNORE',$data);
+    }else{
+        $rtn=$data;
+    }
+    return $rtn;
 }
 
 /**
@@ -553,6 +603,8 @@ function tpl_cache($name,$times = 0) {
  * @param $timeout 过期时间
  */
 function setcache($name, $data, $filepath='', $type='file', $config='', $timeout=0) {
+	if(!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) return false;
+	if($filepath!="" && !preg_match("/^[a-zA-Z0-9_-]+$/", $filepath)) return false;
 	pc_base::load_sys_class('cache_factory','',0);
 	if($config) {
 		$cacheconfig = pc_base::load_config('cache');
@@ -571,6 +623,8 @@ function setcache($name, $data, $filepath='', $type='file', $config='', $timeout
  * @param string $config 配置名称
  */
 function getcache($name, $filepath='', $type='file', $config='') {
+	if(!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) return false;
+	if($filepath!="" && !preg_match("/^[a-zA-Z0-9_-]+$/", $filepath)) return false;
 	pc_base::load_sys_class('cache_factory','',0);
 	if($config) {
 		$cacheconfig = pc_base::load_config('cache');
@@ -589,6 +643,8 @@ function getcache($name, $filepath='', $type='file', $config='') {
  * @param $config 配置名称
  */
 function delcache($name, $filepath='', $type='file', $config='') {
+	if(!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) return false;
+	if($filepath!="" && !preg_match("/^[a-zA-Z0-9_-]+$/", $filepath)) return false;
 	pc_base::load_sys_class('cache_factory','',0);
 	if($config) {
 		$cacheconfig = pc_base::load_config('cache');
@@ -606,6 +662,8 @@ function delcache($name, $filepath='', $type='file', $config='') {
  * @param string $config 配置名称
  */
 function getcacheinfo($name, $filepath='', $type='file', $config='') {
+	if(!preg_match("/^[a-zA-Z0-9_-]+$/", $name)) return false;
+	if($filepath!="" && !preg_match("/^[a-zA-Z0-9_-]+$/", $filepath)) return false;
 	pc_base::load_sys_class('cache_factory');
 	if($config) {
 		$cacheconfig = pc_base::load_config('cache');
@@ -683,33 +741,34 @@ function pages($num, $curr_page, $perpage = 20, $urlrule = '', $array = array(),
 			}
 			$more = 1;
 		}
-		$multipage .= '<ul class="pagination pull-right">';
+		$multipage .= '<a class="a1">'.$num.L('page_item').'</a>';
 		if($curr_page>0) {
+			$multipage .= ' <a href="'.pageurl($urlrule, $curr_page-1, $array).'" class="a1">'.L('previous').'</a>';
 			if($curr_page==1) {
-				$multipage .= ' <li class="active"><span>1</span></li>';
+				$multipage .= ' <span>1</span>';
 			} elseif($curr_page>6 && $more) {
-				$multipage .= ' <li><a href="'.pageurl($urlrule, $curr_page-1, $array).'" class="a1">«</a></li><li><a href="'.pageurl($urlrule, 1, $array).'">1</a>..</li>';
+				$multipage .= ' <a href="'.pageurl($urlrule, 1, $array).'">1</a>..';
 			} else {
-				$multipage .= ' <li><a href="'.pageurl($urlrule, $curr_page-1, $array).'" class="a1">«</a></li><li><a href="'.pageurl($urlrule, 1, $array).'">1</a></li>';
+				$multipage .= ' <a href="'.pageurl($urlrule, 1, $array).'">1</a>';
 			}
 		}
 		for($i = $from; $i <= $to; $i++) {
 			if($i != $curr_page) {
-				$multipage .= ' <li><a href="'.pageurl($urlrule, $i, $array).'">'.$i.'</a></li>';
+				$multipage .= ' <a href="'.pageurl($urlrule, $i, $array).'">'.$i.'</a>';
 			} else {
-				$multipage .= ' <li class="active"><span>'.$i.'</span></li>';
+				$multipage .= ' <span>'.$i.'</span>';
 			}
 		}
 		if($curr_page<$pages) {
 			if($curr_page<$pages-5 && $more) {
-				$multipage .= ' <li>..<a href="'.pageurl($urlrule, $pages, $array).'">'.$pages.'</a></li> <li><a href="'.pageurl($urlrule, $curr_page+1, $array).'" class="a1">»</a></li>';
+				$multipage .= ' ..<a href="'.pageurl($urlrule, $pages, $array).'">'.$pages.'</a> <a href="'.pageurl($urlrule, $curr_page+1, $array).'" class="a1">'.L('next').'</a>';
 			} else {
-				$multipage .= ' <li><a href="'.pageurl($urlrule, $pages, $array).'">'.$pages.'</a></li> <li><a href="'.pageurl($urlrule, $curr_page+1, $array).'" class="a1">»</a></li>';
+				$multipage .= ' <a href="'.pageurl($urlrule, $pages, $array).'">'.$pages.'</a> <a href="'.pageurl($urlrule, $curr_page+1, $array).'" class="a1">'.L('next').'</a>';
 			}
 		} elseif($curr_page==$pages) {
-			$multipage .= ' <li class="active"><span>'.$pages.'</span></li>';
+			$multipage .= ' <span>'.$pages.'</span> <a href="'.pageurl($urlrule, $curr_page, $array).'" class="a1">'.L('next').'</a>';
 		} else {
-			$multipage .= ' <li><a href="'.pageurl($urlrule, $pages, $array).'">'.$pages.'</a></li> <li><a href="'.pageurl($urlrule, $curr_page+1, $array).'" class="a1">»</a></li>';
+			$multipage .= ' <a href="'.pageurl($urlrule, $pages, $array).'">'.$pages.'</a> <a href="'.pageurl($urlrule, $curr_page+1, $array).'" class="a1">'.L('next').'</a>';
 		}
 	}
 	return $multipage;
@@ -1504,6 +1563,7 @@ function tjcode() {
  * @param $html    是否显示完整的STYLE
  */
 function title_style($style, $html = 1) {
+	if(!$style) return "";
 	$str = '';
 	if ($html) $str = ' style="';
 	$style_arr = explode(';',$style);
@@ -1530,7 +1590,7 @@ function siteurl($siteid) {
  */
 
 function upload_key($args) {
-	$pc_auth_key = md5(pc_base::load_config('system','auth_key').$_SERVER['HTTP_USER_AGENT']);
+	$pc_auth_key = md5(PC_PATH.'upload'.pc_base::load_config('system','auth_key').$_SERVER['HTTP_USER_AGENT']);
 	$authkey = md5($args.$pc_auth_key);
 	return $authkey;
 }
@@ -1541,11 +1601,11 @@ function upload_key($args) {
  */
 function get_auth_key($prefix,$suffix="") {
 	if($prefix=='login'){
-		$pc_auth_key = md5(pc_base::load_config('system','auth_key').ip());
+		$pc_auth_key = md5(PC_PATH.'login'.pc_base::load_config('system','auth_key').ip());
 	}else if($prefix=='email'){
-		$pc_auth_key = md5(pc_base::load_config('system','auth_key'));
+		$pc_auth_key = md5(PC_PATH.'email'.pc_base::load_config('system','auth_key'));
 	}else{
-		$pc_auth_key = md5(pc_base::load_config('system','auth_key').$suffix);
+		$pc_auth_key = md5(PC_PATH.'other'.pc_base::load_config('system','auth_key').$suffix);
 	}
 	$authkey = md5($prefix.$pc_auth_key);
 	return $authkey;

@@ -102,6 +102,14 @@ function addtext(data) {
 	</div>
 </div>
 
+<div class="col-2 col-auto">
+	<h6><?php echo L('main_license')?></h6>
+	<div class="content">
+	<?php echo L('main_version')?>Phpcms <?php echo PC_VERSION?>  Release <?php echo PC_RELEASE?> [<a href="http://buy.phpcms.cn" target="_blank"><?php echo L('main_support')?></a>]<br />
+	<?php echo L('main_license_type')?><span id="phpcms_license"></span> <br />
+	<?php echo L('main_serial_number')?><span id="phpcms_sn"></span> <br />
+	</div>
+</div>
     <div class="bk10"></div>
 </div>
 </body></html>
