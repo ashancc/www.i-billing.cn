@@ -16,24 +16,36 @@ ul{
 .main-menu{
 	position: fixed;
 	width: 100%;
-	height: 80px;
 	z-index: 9998;
 	color: #fff;
-	background: #000;
+	background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
 	background-position-x: initial;
 	background-position-y: initial;
 	background-size: initial;
 	background-origin: initial;
 	background-clip: initial;
 }
+.scrolling.main-menu{
+	background: rgba(0, 0, 0, .8);
+}
 .logo{
 	color: #45c4bf;
 	font-size: 18px;
 	font-weight: 550;
-	line-height: 63px;
+	line-height: 80px;
+}
+.logo strong{
+	font-size: 24px;
 }
 .logo span{
-	font-size: 24px;
+	color: #45c4bf;
+	font-size: 18px;
+	border-left: 1px solid #45c4bf;
+	margin-left: 10px;
+	padding-left: 10px;
+	position: relative;
+	top: -1px;
 }
 nav ul.navbar{
 	margin: 0;
@@ -46,7 +58,7 @@ nav li{
 }
 nav a{
 	display: inline-block;
-	margin-top: 22px;
+	padding: 27px 15px;
 	color: #c7c8c8;
 	font-size: 18px;
 }
@@ -61,12 +73,12 @@ nav a:focus{
 .main-menu li.active a{
 	border-bottom: 2px solid #49c8c5;
 	color: #49c8c5;
+	padding-bottom: 3px;
+	padding-left: 0;
+	padding-right: 0;
 }
 /*/Main menu*/
 /*Banner wrapper*/
-.banner-wrapper{
-	padding-top: 80px;
-}
 .banner-wrapper ol.carousel-indicators{
 	position: absolute;
 	bottom: 12px;
@@ -171,15 +183,20 @@ header h4{
 .reason-content ul{
 	list-style-type: square;
 	color: #03d0b2;
+	margin-left: -18px;
 }
 .reason-content li{
 	font-size: 26px;
+	margin-left: 20px;
 }
 .reason-content li span{
 	margin: 14px 0;
 	font-size: 18px;
 	font-weight: 100;
 	color: #929292;
+	position: relative;
+	left: -10px;
+	top: -2px;
 }
 .reason-content .btn{
 	margin-top: 45px;
@@ -247,7 +264,7 @@ header h4{
 /*Hot list*/
 .hot-list{
 	padding: 70px 0;
-	height: 970px;
+	height: 900px;
 	background-color: #0c2634;
 	color: #fff;
 }
@@ -267,21 +284,25 @@ header h4{
 }
 .case{
 	float: left;
-	width: 380px;
+	width: 350px;
 	height: 257px;
-	margin: 14px 5px;
+	margin: 13px 18px;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: 100%;
+	background-size: 100% 100%;
 	position: relative;
 	overflow: hidden;
+	color: #fff;
+	text-decoration: none;
 }
 .case .name{
+	font-size: 20px;
 	position: absolute;
 	bottom: 21px;
 	left: 21px;
 	font-weight: 300;
 	transition: all .5s;
+	color: #fff;
 }
 .case:hover .name{
 	bottom: 160px;
@@ -291,54 +312,40 @@ header h4{
 	width: 150px;
 	font-size: 30px;
 	z-index: 1;
+	color: #fff;
 }
-.desc{
+.case .desc{
 	margin-top: 100%;
 	display: block;
 	width: 100%;
 	height: 100%;
 	background-color: #007bba;
 	opacity: 0.8;
-	font-size: 14px;
 	overflow: hidden;
 	transition: all .5s;
+	color: #fff;
+	font-size: 16px;
 }
 .case:hover .desc{
 	display: block;
 	margin-top: 0;
+	color: #fff;
 }
 .desc .content{
 	padding: 105px 21px 0 21px;
 }
-.case-1{
-	background-image: url(../img/case-1.png);
-}
-.case-2{
-	background-image: url(../img/case-2.png);
-}
-.case-3{
-	background-image: url(../img/case-3.png);
-}
-.case-4{
-	background-image: url(../img/case-4.png);
-}
-.case-5{
-	background-image: url(../img/case-5.png);
-}
-.case-6{
-	background-image: url(../img/case-6.png);
-}
 /*/Hot list*/
+
 /*Copyright*/
 .copyright{
 	height: 170px;
 	background-color: #0b212b;
 	color: #999999;
-	font-size: 22px;
+	font-size: 14px;
 	line-height: 170px;
 	overflow: hidden;
 }
-.copyright p{
-	margin: 0;
+.copyright .logo-img{
+	margin-right: 15px;
 }
 /*/Copyright*/

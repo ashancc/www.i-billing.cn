@@ -3,8 +3,7 @@
 <section class="main-menu">
     <div class="container">
         <div class="logo pull-left">
-            <p><span>艾比利 |</span>
-                一站式物联网运营平台</p>
+            <div class="logo-wrap"><strong>艾比利</strong> <span>一站式物联网运营平台</span></div>
         </div>
         <nav class="pull-right" role="navigation">
             <ul class="navbar">
@@ -141,52 +140,18 @@
         <div class="title">
             <span>行业案例</span>
         </div>
-        <div class="case case-1">
-            <div class="name">工业物联网</div>
-            <div class="desc">
-                <div class="content"></div>
-            </div>
-        </div>
-        <div class="case case-2">
-            <div class="name">智能安防</div>
-            <div class="desc">
-                <div class="content"></div>
-            </div>
-        </div>
-        <div class="case case-3">
-            <div class="name">智能家居</div>
-            <div class="desc">
-                <div class="content"></div>
-            </div>
-        </div>
-        <div class="case case-4">
-            <div class="name">车联网</div>
-            <div class="desc">
-                <div class="content"></div>
-            </div>
-        </div>
-        <div class="case case-5">
-            <div class="name">智能穿戴</div>
-            <div class="desc">
-                <div class="content"></div>
-            </div>
-        </div>
-        <div class="case case-6">
-            <div class="name">智能医疗</div>
-            <div class="desc">
-                <div class="content"></div>
-            </div>
-        </div>
+        {pc:content action="category" catid="100" num="6" siteid="$siteid" order="listorder ASC"}
+            {loop $data $r}
+                <a href="{$r[url]}" class="case case-1" style="background: url({$r[image]})">
+                    <div class="name">{$r[catname]}</div>
+                    <div class="desc">
+                        <div class="content">{$r[description]}</div>
+                    </div>
+                </a>
+            {/loop}
+        {/pc}
     </div>
 </section>
 <!-- /Hot list -->
-<!-- Copyright -->
-<section class="copyright">
-    <div class="container">
-        <div class="logo-img pull-left">
-            <img src="#" alt="logo">
-        </div>
-        <p>&copy 北京海睿兴业科技有限公司 保留一切权利 京ICP备13046694号</p>
-    </div>
-</section>
-<!-- /Copyright -->
+
+{template "content","iot_footer"}
